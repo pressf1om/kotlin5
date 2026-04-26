@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "d"
 include(":app")
+include(":photoapp")
  
