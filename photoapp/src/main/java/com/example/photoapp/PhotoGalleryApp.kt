@@ -8,7 +8,6 @@ import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,12 +21,16 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -176,6 +179,7 @@ private fun PhotoItem(file: File, onExport: () -> Unit) {
     val bitmap = remember(file.absolutePath) {
         BitmapFactory.decodeFile(file.absolutePath)
     }
+    var menuExpanded by remember(file.name) { mutableStateOf(false) }
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -201,14 +205,29 @@ private fun PhotoItem(file: File, onExport: () -> Unit) {
                     Text("Нет превью")
                 }
             }
+
+            IconButton(
+                onClick = { menuExpanded = true },
+                modifier = Modifier.align(Alignment.TopEnd)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = "Меню"
+                )
+            }
+
+            DropdownMenu(
+                expanded = menuExpanded,
+                onDismissRequest = { menuExpanded = false }
+            ) {
+                DropdownMenuItem(
+                    text = { Text("Экспорт в галерею") },
+                    onClick = {
+                        menuExpanded = false
+                        onExport()
+                    }
+                )
+            }
         }
-        Text(
-            text = "Экспорт",
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(onClick = onExport)
-                .padding(8.dp),
-            style = MaterialTheme.typography.bodySmall
-        )
     }
 }
