@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Купить продукты",
+    "description": "Молоко, хлеб, фрукты",
+    "isDone": false
+  },
+  {
+    "title": "Повторить SQL",
+    "description": "SELECT, INSERT, UPDATE, DELETE",
+    "isDone": true
+  },
+  {
+    "title": "Сделать домашнюю работу",
+    "description": "Завершить практику по Android",
+    "isDone": false
+  }
+]
